@@ -19,10 +19,7 @@ public class PingPong {
                         }
                     }
 
-                    System.out.print("Ping");
-                    if (i < MAX_ITERATIONS - 1) {
-                        System.out.print(" ");
-                    }
+                    System.out.print("Ping ");
 
                     pingTurn = false;
                     lock.notify();
