@@ -2,5 +2,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Expression extends Remote {
-    void printExpr() throws RemoteException;
+    Result solve(double a, double b, double c) throws RemoteException;
 }

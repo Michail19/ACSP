@@ -8,7 +8,11 @@ public class Client {
         try {
             Registry registry = LocateRegistry.getRegistry(null);
             Expression stub = (Expression) registry.lookup("Expression");
-            stub.printExpr();
+            double a = 1, b = -3, c = 2;
+
+            Result result = stub.solve(a, b, c);
+            System.out.println("Solve: " + result);
+            System.out.println("Comment: " + result.getMessage());
         }
         catch (Exception e) {
             System.err.println("Error: " + e);
