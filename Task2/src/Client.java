@@ -7,7 +7,7 @@ public class Client {
     public static void main(String[] args) {
         try {
             System.out.println();
-            
+
             Registry registry = LocateRegistry.getRegistry(null);
             Expression stub = (Expression) registry.lookup("Expression");
             double a = 1, b = -3, c = 2;
