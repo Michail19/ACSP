@@ -8,11 +8,13 @@ public class SocketServer {
     private static final int BROADCAST_INTERVAL = 5000;
 
     private ServerSocket serverSocket;
-    private final List<ClientHandler> clients;
-    private final ScheduledExecutorService scheduler;
+    private List<ClientHandler> clients;
+    private List<String> messageQueue;
+    private ScheduledExecutorService scheduler;
 
     public SocketServer() {
         clients = new CopyOnWriteArrayList<>();
+        messageQueue = new ArrayList<>();
         scheduler = Executors.newScheduledThreadPool(1);
     }
 
@@ -21,7 +23,6 @@ public class SocketServer {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Сервер запущен на порту " + PORT);
 
-            // Запускаем планировщик для широковещательной рассылки
             scheduler.scheduleAtFixedRate(this::broadcastMessages,
                     BROADCAST_INTERVAL, BROADCAST_INTERVAL, TimeUnit.MILLISECONDS);
 
@@ -56,19 +57,17 @@ public class SocketServer {
         }
     }
 
+    public synchronized void addMessage(String message) {
+        messageQueue.add(message);
+        System.out.println("Сообщение добавлено в очередь: " + message);
+    }
+
     private synchronized void broadcastMessages() {
-        ArrayList<String> messageQueue = new ArrayList<>();
-
-        for (ClientHandler clientHandler : clients) {
-            if (clientHandler.messageQueue.isEmpty()) {
-                return;
-            }
-
-            messageQueue.addAll(clientHandler.messageQueue);
-            clientHandler.messageQueue.clear();
+        if (messageQueue.isEmpty()) {
+            return;
         }
 
-        String broadcastPacket = createBroadcastPacket(messageQueue);
+        String broadcastPacket = createBroadcastPacket();
 
         Iterator<ClientHandler> iterator = clients.iterator();
         while (iterator.hasNext()) {
@@ -81,10 +80,11 @@ public class SocketServer {
             }
         }
 
+        messageQueue.clear();
         System.out.println("Широковещательная рассылка выполнена");
     }
 
-    private String createBroadcastPacket(ArrayList<String> messageQueue) {
+    private String createBroadcastPacket() {
         StringBuilder packet = new StringBuilder();
         packet.append("=== Широковещательное сообщение ===\n");
         packet.append("Время: ").append(new Date()).append("\n");
@@ -97,6 +97,66 @@ public class SocketServer {
         packet.append("===================================\n");
 
         return packet.toString();
+    }
+
+    private class ClientHandler implements Runnable {
+        private Socket clientSocket;
+        private PrintWriter out;
+        private BufferedReader in;
+        private boolean connected;
+
+        public ClientHandler(Socket socket) {
+            this.clientSocket = socket;
+            this.connected = true;
+        }
+
+        @Override
+        public void run() {
+            try {
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                // Отправляем приветственное сообщение
+                out.println("Добро пожаловать в чат! Ваши сообщения будут отправлены всем участникам раз в 5 секунд.");
+
+                String inputLine;
+                while ((inputLine = in.readLine()) != null && connected) {
+                    if (!inputLine.trim().isEmpty()) {
+                        addMessage("Клиент-" + getClientId() + ": " + inputLine);
+                    }
+                }
+
+            } catch (IOException e) {
+                System.err.println("Ошибка обработки клиента: " + e.getMessage());
+            } finally {
+                stop();
+            }
+        }
+
+        public void sendMessage(String message) {
+            if (out != null) {
+                out.println(message);
+            }
+        }
+
+        public void stop() {
+            connected = false;
+            try {
+                if (in != null) in.close();
+                if (out != null) out.close();
+                if (clientSocket != null) clientSocket.close();
+            } catch (IOException e) {
+                System.err.println("Ошибка при закрытии соединения с клиентом: " + e.getMessage());
+            }
+        }
+
+        public boolean isConnected() {
+            return connected && !clientSocket.isClosed() && clientSocket.isConnected();
+        }
+
+        private String getClientId() {
+            return clientSocket.getInetAddress().toString() + ":" + clientSocket.getPort();
+        }
     }
 
     public static void main(String[] args) {
