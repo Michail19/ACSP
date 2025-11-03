@@ -25,6 +25,7 @@
     </content>
     <orderEntry type="jdk" jdkName="corretto-21" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:3.5.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:3.5.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:3.5.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:3.5.7" level="project" />
@@ -35,9 +36,26 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.24.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:2.0.17" level="project" />
     <orderEntry type="library" name="Maven: jakarta.annotation:jakarta.annotation-api:2.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-core:6.2.12" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:6.2.12" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:2.4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:3.5.7" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.19.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.19.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:3.5.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:10.1.48" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:10.1.48" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:10.1.48" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: io.micrometer:micrometer-observation:1.15.5" level="project" />
+    <orderEntry type="library" name="Maven: io.micrometer:micrometer-commons:1.15.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:3.5.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:6.2.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:3.5.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:3.5.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:3.5.7" level="project" />
@@ -66,21 +84,12 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-junit-jupiter:5.17.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.skyscreamer:jsonassert:1.5.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:6.2.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:6.2.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:6.2.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.10.4" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:5.2.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:6.2.12" level="project" />
-    <orderEntry type="library" name="Maven: io.micrometer:micrometer-observation:1.15.5" level="project" />
-    <orderEntry type="library" name="Maven: io.micrometer:micrometer-commons:1.15.5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:5.2.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:6.2.12" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.2.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.2.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:6.2.12" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-expression:6.2.12" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.17.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.17.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.19.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:4.0.1" level="project" />
   </component>
 </module>
