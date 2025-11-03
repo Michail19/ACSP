@@ -91,5 +91,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.17.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.17.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.19.2" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.42" level="project" />
   </component>
 </module>

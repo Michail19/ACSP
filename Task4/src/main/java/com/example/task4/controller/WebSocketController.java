@@ -1,18 +1,24 @@
 package com.example.task4.controller;
 
+import com.example.task4.model.Message;
+import com.example.task4.model.OutputMessage;
+import com.example.task4.service.WebSocketService;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class WebSocketController {
+    private final WebSocketService webSocketService;
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
+    public WebSocketController(WebSocketService webSocketService) {
+        this.webSocketService = webSocketService;
     }
 
-    @GetMapping("/web")
-    public String websocketClient() {
-        return "websocket-client";
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public OutputMessage send(Message message) {
+        return webSocketService.processMessage(message);
     }
 }
+
