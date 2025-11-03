@@ -11,7 +11,7 @@ public class WebSocketController {
         return "index";
     }
 
-    @GetMapping("/websocket-client")
+    @GetMapping("/web")
     public String websocketClient() {
         return "websocket-client";
     }
