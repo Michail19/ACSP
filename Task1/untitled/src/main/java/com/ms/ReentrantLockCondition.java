@@ -51,7 +51,7 @@ public final class ReentrantLockCondition {
                         PING_CONDITION.await();
                     }
 
-                    // Используем System.out для демонстрации
+                    // Use System.out for demonstration purposes
                     System.out.print("Ping");
                     if (i < MAX_ITERATIONS - 1) {
                         System.out.print(" ");
@@ -80,7 +80,7 @@ public final class ReentrantLockCondition {
                         PONG_CONDITION.await();
                     }
 
-                    // Используем System.out для демонстрации
+                    // Use System.out for demonstration purposes
                     System.out.print("Pong");
                     if (i < MAX_ITERATIONS - 1) {
                         System.out.print(" ");
