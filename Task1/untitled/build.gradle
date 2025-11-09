@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'pmd'
+    id 'com.github.spotbugs' version '5.0.14'
+}
+
+group = 'com.ms'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    spotbugs 'com.github.spotbugs:spotbugs:4.7.3'
+}
+
+checkstyle {
+    toolVersion = '10.12.1'
+    configFile = file("config/checkstyle/checkstyle.xml")
+}
+
+pmd {
+    toolVersion = '6.55.0'
+    ruleSets = []
+    ruleSetFiles = files("config/pmd/ruleset.xml")
+}
+
+spotbugs {
+    toolVersion = '4.7.3'
+    ignoreFailures = false
+    effort = 'max'
+    reportLevel = 'medium'
+}
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.ms.ReentrantLockCondition'
+    }
+}
