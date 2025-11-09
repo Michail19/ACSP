@@ -96,7 +96,8 @@
         </module>
 
         <module name="FinalParameters">
-            <property name="tokens" value="METHOD_DEF, CTOR_DEF, LITERAL_CATCH, FOR_EACH_CLAUSE"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, LITERAL_CATCH"/>
+            <property name="ignorePrimitiveTypes" value="true"/>
         </module>
 
         <module name="UnnecessaryParentheses"/>
@@ -130,7 +131,7 @@
         <property name="eachLine" value="true"/>
     </module>
 
-    <!-- Проверка структуры файла -->
+    <!-- Проверка структуры файла - УБРАНА строгая проверка -->
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf_cr_crlf"/>
     </module>

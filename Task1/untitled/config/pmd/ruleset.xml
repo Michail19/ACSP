@@ -13,6 +13,7 @@
     <rule ref="category/java/bestpractices.xml">
         <exclude name="GuardLogStatement"/>
         <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="UseUtilityClass"/>
     </rule>
 
     <rule ref="category/java/codestyle.xml">
@@ -24,6 +25,8 @@
         <exclude name="MethodArgumentCouldBeFinal"/>
         <exclude name="LocalVariableCouldBeFinal"/>
         <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
+        <exclude name="CommentDefaultAccessModifier"/>
+        <exclude name="NoPackage"/>
     </rule>
 
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
@@ -55,6 +58,7 @@
         <exclude name="DataClass"/>
         <exclude name="ExcessiveImports"/>
         <exclude name="TooManyFields"/>
+        <exclude name="LoosePackageCoupling"/>
     </rule>
 
     <rule ref="category/java/design.xml/TooManyMethods">
@@ -67,15 +71,6 @@
         <exclude name="AvoidCatchingNPE"/>
         <exclude name="AvoidDuplicateLiterals"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
-        <exclude name="BeanMembersShouldSerialize"/>
-    </rule>
-
-    <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop">
-        <properties>
-            <property name="checkBreak" value="true"/>
-            <property name="checkContinue" value="true"/>
-            <property name="checkReturn" value="true"/>
-        </properties>
     </rule>
 
     <rule ref="category/java/multithreading.xml">

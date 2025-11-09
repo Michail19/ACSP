@@ -3,6 +3,7 @@ plugins {
     id 'checkstyle'
     id 'pmd'
     id 'com.github.spotbugs' version '5.0.14'
+    id 'jacoco'
 }
 
 group = 'com.ms'
@@ -14,7 +15,12 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // SpotBugs annotations
+    spotbugs 'com.github.spotbugs:spotbugs:4.7.3'
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.7.3'
 }
 
 java {
@@ -22,33 +28,108 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-dependencies {
-    spotbugs 'com.github.spotbugs:spotbugs:4.7.3'
-}
-
+// Checkstyle configuration
 checkstyle {
     toolVersion = '10.12.1'
     configFile = file("config/checkstyle/checkstyle.xml")
+    ignoreFailures = false
+    showViolations = true
 }
 
+// PMD configuration
 pmd {
     toolVersion = '6.55.0'
-    ruleSets = []
     ruleSetFiles = files("config/pmd/ruleset.xml")
+    ruleSets = []
+    ignoreFailures = false
+    consoleOutput = true
 }
 
+// SpotBugs configuration
 spotbugs {
     toolVersion = '4.7.3'
     ignoreFailures = false
     effort = 'max'
     reportLevel = 'medium'
+    showProgress = true
 }
+
+tasks.named('spotbugsMain') {
+    reports {
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main.html")
+            stylesheet = 'fancy.xsl'
+        }
+        xml {
+            enabled = false
+        }
+    }
+}
+
+tasks.named('spotbugsTest') {
+    reports {
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/test.html")
+            stylesheet = 'fancy.xsl'
+        }
+        xml {
+            enabled = false
+        }
+    }
+}
+
+// JaCoCo configuration
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = "full"
+    }
+    finalizedBy jacocoTestReport
 }
+
+check.dependsOn jacocoTestCoverageVerification
 
 jar {
     manifest {
         attributes 'Main-Class': 'com.ms.ReentrantLockCondition'
     }
+}
+
+// Task для запуска всех проверок
+task staticAnalysis {
+    dependsOn checkstyleMain, pmdMain, spotbugsMain
+    group = 'verification'
+    description = 'Runs all static analysis tools'
+}
+
+// Task для полного анализа
+task fullAnalysis {
+    dependsOn clean, staticAnalysis, test, jacocoTestReport
+    group = 'verification'
+    description = 'Runs complete code analysis'
 }

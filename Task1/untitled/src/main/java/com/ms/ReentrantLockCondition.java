@@ -1,14 +1,31 @@
+package com.ms;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ReentrantLockCondition {
-    private static final ReentrantLock lock = new ReentrantLock();
-    private static final Condition pingCondition = lock.newCondition();
-    private static final Condition pongCondition = lock.newCondition();
+/**
+ * Пример использования ReentrantLock и Condition для синхронизации потоков.
+ */
+public final class ReentrantLockCondition {
+    private static final ReentrantLock LOCK = new ReentrantLock();
+    private static final Condition PING_CONDITION = LOCK.newCondition();
+    private static final Condition PONG_CONDITION = LOCK.newCondition();
     private static boolean pingTurn = true;
     private static final int MAX_ITERATIONS = 5;
 
-    public static void main(String[] args) {
+    /**
+     * Приватный конструктор для утилитного класса.
+     */
+    private ReentrantLockCondition() {
+        // Утилитный класс
+    }
+
+    /**
+     * Основной метод приложения.
+     *
+     * @param args аргументы командной строки
+     */
+    public static void main(final String[] args) {
         Thread pingThread = new Thread(new PingTask());
         Thread pongThread = new Thread(new PongTask());
 
@@ -18,60 +35,64 @@ public class ReentrantLockCondition {
         try {
             pingThread.join();
             pongThread.join();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 
+    // Обычный доступ к вложенному классу
     static class PingTask implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < MAX_ITERATIONS; i++) {
-                lock.lock();
+                LOCK.lock();
                 try {
                     while (!pingTurn) {
-                        pingCondition.await();
+                        PING_CONDITION.await();
                     }
 
+                    // Используем System.out для демонстрации
                     System.out.print("Ping");
                     if (i < MAX_ITERATIONS - 1) {
                         System.out.print(" ");
                     }
 
                     pingTurn = false;
-                    pongCondition.signal();
-                } catch (InterruptedException e) {
+                    PONG_CONDITION.signal();
+                } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
                 } finally {
-                    lock.unlock();
+                    LOCK.unlock();
                 }
             }
         }
     }
 
+    // Обычный доступ к вложенному классу
     static class PongTask implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < MAX_ITERATIONS; i++) {
-                lock.lock();
+                LOCK.lock();
                 try {
                     while (pingTurn) {
-                        pongCondition.await();
+                        PONG_CONDITION.await();
                     }
 
+                    // Используем System.out для демонстрации
                     System.out.print("Pong");
                     if (i < MAX_ITERATIONS - 1) {
                         System.out.print(" ");
                     }
 
                     pingTurn = true;
-                    pingCondition.signal();
-                } catch (InterruptedException e) {
+                    PING_CONDITION.signal();
+                } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
                 } finally {
-                    lock.unlock();
+                    LOCK.unlock();
                 }
             }
         }
