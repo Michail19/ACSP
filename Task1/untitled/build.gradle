@@ -110,6 +110,21 @@ test {
         exceptionFormat = "full"
     }
     finalizedBy jacocoTestReport
+
+    // Включить JMX для тестов
+    jvmArgs = [
+            '-Dcom.sun.management.jmxremote',
+            '-Dcom.sun.management.jmxremote.port=9011',
+            '-Dcom.sun.management.jmxremote.local.only=false',
+            '-Dcom.sun.management.jmxremote.authenticate=false',
+            '-Dcom.sun.management.jmxremote.ssl=false'
+    ]
+
+    // Настройки для профилирования памяти
+    jvmArgs += [
+            '-XX:+HeapDumpOnOutOfMemoryError',
+            '-XX:HeapDumpPath=build/heapdump.hprof'
+    ]
 }
 
 check.dependsOn jacocoTestCoverageVerification
@@ -132,4 +147,28 @@ task fullAnalysis {
     dependsOn clean, staticAnalysis, test, jacocoTestReport
     group = 'verification'
     description = 'Runs complete code analysis'
+}
+
+// Конфигурация для JaCoCo (покрытие кода)
+
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5 // 50% покрытие
+            }
+        }
+    }
 }
