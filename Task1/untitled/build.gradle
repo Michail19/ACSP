@@ -172,3 +172,39 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+task runWithVisualVM(type: JavaExec) {
+    group = 'application'
+    description = 'Run the application with JMX for VisualVM'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.ms.ReentrantLockCondition'
+
+    jvmArgs = [
+            '-Dcom.sun.management.jmxremote',
+            '-Dcom.sun.management.jmxremote.port=9010',
+            '-Dcom.sun.management.jmxremote.local.only=false',
+            '-Dcom.sun.management.jmxremote.authenticate=false',
+            '-Dcom.sun.management.jmxremote.ssl=false',
+            '-Djava.rmi.server.hostname=localhost'
+    ]
+}
+
+task runWithProfiling(type: JavaExec) {
+    group = 'application'
+    description = 'Run with profiling options for better analysis'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.ms.ReentrantLockCondition'
+
+    jvmArgs = [
+            '-Dcom.sun.management.jmxremote',
+            '-Dcom.sun.management.jmxremote.port=9010',
+            '-Dcom.sun.management.jmxremote.local.only=false',
+            '-Dcom.sun.management.jmxremote.authenticate=false',
+            '-Dcom.sun.management.jmxremote.ssl=false',
+            '-XX:+UnlockDiagnosticVMOptions',
+            '-XX:+DebugNonSafepoints',
+            '-XX:+PreserveFramePointer'
+    ]
+}
