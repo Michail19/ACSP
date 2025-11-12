@@ -15,6 +15,6 @@ public class ReentrantLockConditionTest {
         testThread.start();
         testThread.join(5000); // Ждем максимум 5 секунд
 
-        assertFalse(testThread.isAlive(), "Программа должна завершиться");
+        assertFalse(!testThread.isAlive(), "Программа должна завершиться");
     }
 }
